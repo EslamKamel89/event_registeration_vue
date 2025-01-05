@@ -4,7 +4,7 @@
     <template #default>{{ when }}</template>
     <template #description>{{ description }}</template>
     <template #footer>
-      <VueButton variant="default" @click="emit('register', 1)">
+      <VueButton variant="default" @click="emit('register', '1')">
         <template #content>
           <div>Register Now!!</div>
         </template>
@@ -32,6 +32,6 @@ defineProps({
 });
 
 const emit = defineEmits<{
-  register: [id: number];
+  register: [id: string];
 }>();
 </script>
