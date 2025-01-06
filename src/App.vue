@@ -1,23 +1,7 @@
 <template>
   <main class="container mx-auto my-8 space-y-8">
     <h1 class="text-4xl font-medium">Event Booking App</h1>
-    <h2 class="text-2xl font-medium">All Events</h2>
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <template v-if="!eventLoading">
-        <EventCard
-          v-for="ev in events"
-          :key="ev.id"
-          :title="ev.title"
-          :when="ev.date"
-          :description="ev.description"
-          @register="(id: string) => handleRegisteration(ev)"
-        />
-      </template>
-      <template v-else>
-        <LoadingEventCard v-for="i in 8" :key="i" />
-      </template>
-    </section>
-
+    <EventList @register="(ev: Event) => handleRegisteration(ev)" />
     <h2 class="text-2xl font-medium">Your Booking</h2>
     <section class="grid grid-cols-1 gap-8">
       <template v-if="!bookingsLoading">
@@ -37,42 +21,28 @@
   </main>
 </template>
 <script setup lang="ts">
-import EventCard from '@/components/EventCard.vue';
 import { onMounted, ref } from 'vue';
 import BookingItem from './components/BookingItem.vue';
 import BookingItemLoading from './components/BookingItemLoading.vue';
-import LoadingEventCard from './components/LoadingEventCard.vue';
+import EventList from './components/EventList.vue';
 import pr from './utils/pr';
-type Event = {
+export type Event = {
   id: string;
   title: string;
   date: string;
   description: string;
   location: string;
 };
-type Booking = {
+export type Booking = {
   id: string;
   userId: string;
   eventId: string;
   eventTitle: string;
   status: 'pending' | 'canceled' | 'confirmed';
 };
-const events = ref<Event[]>([]);
-const eventLoading = ref<boolean>(false);
+
 const bookings = ref<Booking[]>([]);
 const bookingsLoading = ref<boolean>(false);
-
-const fetchEvents = async () => {
-  eventLoading.value = true;
-  try {
-    const response = await fetch('http://localhost:3000/events');
-    events.value = await response.json();
-    console.log(events.value);
-  } catch (error) {
-    console.log(error);
-  }
-  eventLoading.value = false;
-};
 
 const fetchBookings = async () => {
   try {
@@ -147,7 +117,6 @@ const cancelBooking = async (bookingId: string) => {
 };
 
 onMounted(() => {
-  fetchEvents();
   fetchBookings();
 });
 </script>
