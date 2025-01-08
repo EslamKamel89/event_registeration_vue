@@ -31,17 +31,10 @@
   ],
   "bookings": [
     {
-      "id": "1736156603286",
+      "id": "1736328642800",
       "userId": "1",
       "eventId": "4",
       "eventTitle": "Rust Conference 2021",
-      "status": "confirmed"
-    },
-    {
-      "id": "1736156605332",
-      "userId": "1",
-      "eventId": "3",
-      "eventTitle": "PHP Conference 2022",
       "status": "confirmed"
     }
   ]
