@@ -18,14 +18,22 @@ export type Booking = {
 
 export const bookings = ref<Booking[]>([]);
 export const bookingsLoading = ref<boolean>(false);
-
+const bookingsError = ref<string | null>(null);
 export const fetchBookings = async () => {
   try {
+    bookingsError.value = null;
     bookingsLoading.value = true;
     const response = await fetch('http://localhost:3000/bookings');
     bookings.value = await response.json();
+    if (!response.ok) {
+      throw new Error('unknown error occured');
+    }
   } catch (error) {
     console.log(error);
+    if (error instanceof Error) {
+      bookingsError.value = error.message;
+    }
+    bookingsError.value = 'Unknown error happend when fetching the bookings';
   }
   bookingsLoading.value = false;
 };
@@ -97,5 +105,6 @@ export default function useBookings() {
     handleRegisteration,
     findBookingById,
     cancelBooking,
+    bookingsError,
   };
 }

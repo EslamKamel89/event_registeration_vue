@@ -1,13 +1,6 @@
 <template>
   <template v-if="error != null">
-    <RoundedCard>
-      <div class="space-y-4 items-center flex flex-col mb-2">
-        <div class="text-red-500">{{ error }}</div>
-        <VueButton @click="fetchEvents" variant="danger">
-          <template #content> Retry Now </template>
-        </VueButton>
-      </div>
-    </RoundedCard>
+    <ErrorCard error="bookingsError" :retry="fetchEvents" />
   </template>
   <template v-else>
     <h2 class="text-2xl font-medium">All Events</h2>
@@ -37,9 +30,8 @@
 import EventCard from '@/components/EventCard.vue';
 import useBookings, { type Event } from '@/composables/useBookings';
 import { onMounted, ref } from 'vue';
+import ErrorCard from './ErrorCard.vue';
 import LoadingEventCard from './LoadingEventCard.vue';
-import RoundedCard from './RoundedCard.vue';
-import VueButton from './VueButton.vue';
 const events = ref<Event[]>([]);
 const eventLoading = ref<boolean>(false);
 const error = ref<string | null>(null);
