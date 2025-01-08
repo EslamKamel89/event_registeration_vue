@@ -19,7 +19,7 @@ import SectionCard from '@/components/SectionCard.vue';
 import { Check, LoaderCircle } from 'lucide-vue-next';
 import { computed } from 'vue';
 import VueButton from './VueButton.vue';
-const props = defineProps<{
+const { title, bookingId, status } = defineProps<{
   title: string;
   bookingId: string;
   status: 'pending' | 'canceled' | 'confirmed';
@@ -34,7 +34,7 @@ const cancelRegisteration = async (bookingId: string) => {
 };
 
 const pending = computed<boolean>(() => {
-  return props.status === 'pending';
+  return status === 'pending';
 });
 const icon = computed<typeof LoaderCircle | typeof Check>(() => {
   return pending.value ? LoaderCircle : Check;

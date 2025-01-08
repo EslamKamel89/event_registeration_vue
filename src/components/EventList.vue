@@ -20,7 +20,7 @@
             :title="ev.title"
             :when="ev.date"
             :description="ev.description"
-            @register="(id: string) => emit('register', ev)"
+            @click="handleRegisteration(ev)"
           />
         </template>
         <template v-else>
@@ -34,8 +34,8 @@
   </template>
 </template>
 <script setup lang="ts">
-import type { Event } from '@/App.vue';
 import EventCard from '@/components/EventCard.vue';
+import useBookings, { type Event } from '@/composables/useBookings';
 import { onMounted, ref } from 'vue';
 import LoadingEventCard from './LoadingEventCard.vue';
 import RoundedCard from './RoundedCard.vue';
@@ -43,6 +43,8 @@ import VueButton from './VueButton.vue';
 const events = ref<Event[]>([]);
 const eventLoading = ref<boolean>(false);
 const error = ref<string | null>(null);
+const { handleRegisteration } = useBookings();
+
 const fetchEvents = async () => {
   eventLoading.value = true;
   error.value = null;
@@ -62,7 +64,4 @@ const fetchEvents = async () => {
 onMounted(() => {
   fetchEvents();
 });
-const emit = defineEmits<{
-  register: [event: Event];
-}>();
 </script>
